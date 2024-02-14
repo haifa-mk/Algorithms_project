@@ -24,6 +24,9 @@ public class PortfolioAllocator {
 
       
     }
+    public void findOptimal(){
+        //code
+    }
 
 
 }
