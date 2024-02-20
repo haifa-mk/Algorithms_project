@@ -30,7 +30,7 @@ public class PortfolioAllocator {
 
 
 
-
+    //change the return value to list or object containg the optimal allocation  in both methods
     public static List<List<Integer>> assestAllocations(int targetSum, int[] maxValues) {
         List<List<Integer>> result = new ArrayList<>();
         generateAllocation(targetSum, maxValues, new ArrayList<>());
