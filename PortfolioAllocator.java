@@ -1,11 +1,14 @@
 import java.util.*;
 
 public class PortfolioAllocator {
-    List<Asset> assets = new ArrayList<>();
-    double totalInvestment;
-    double riskTolerance;
+static List<Integer> bestAllocation = new ArrayList<>();
+static double bestReturn = -1; //any val
+static double bestRisk = Double.MAX_VALUE; // initialise with a high value
+static Scanner input = new Scanner(System.in);
+   static List<Asset> assets = new ArrayList<>();
+   static double totalInvestment;
+   static double riskTolerance;
     public void getAllInputs() {
-        Scanner input = new Scanner(System.in);
         System.out.println("enter the no of assets:");
         int no = input.nextInt();
         for (int i = 0; i < no; i++) {
@@ -22,7 +25,7 @@ public class PortfolioAllocator {
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
 
-      
+    
     }
     public void findOptimal(){
         //code
@@ -44,16 +47,47 @@ public class PortfolioAllocator {
                 sum += num;
             }
             if (sum == numOfAssets) {
-              //find_optimal
+                double currentReturn = calculatePortfolio(currentAllocation);
+                double currentRisk = calculatePortfolio(currentAllocation);
+                if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
+                    bestReturn = currentReturn;
+                    bestRisk = currentRisk;
+                    bestAllocation = new ArrayList<>(currentAllocation); 
+                }
             }
+           
             return;
         }
-
+    
         for (int i = 0; i <= quantities[currentAllocation.size()]; i++) {
             currentAllocation.add(i);
             generateAllocation(numOfAssets, quantities, currentAllocation);
             currentAllocation.remove(currentAllocation.size() - 1);
         }
     }
+    
+
+
+    public static double calculatePortfolio(List<Integer> allocation) {
+        double totalRisk = 0;
+        double totalQuan = 0;
+    
+        // Calculate the total quantity to find weights
+        for (int i = 0; i < allocation.size(); i++) {
+            totalQuan += allocation.get(i);
+        }
+    
+        // calculate the risk using the weights
+        for (int i = 0; i < allocation.size(); i++) {
+            double weight = (double)allocation.get(i) / totalQuan;
+            totalRisk += weight * assets.get(i).riskLevel;
+        }
+    
+        return totalRisk;
+    }
+    
+
+
+
 
 }
