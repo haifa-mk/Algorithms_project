@@ -52,29 +52,38 @@ public static void main(String[] args) {
     public static void generateAllocation(int investmentAmount, int[] quantities, List<Integer> currentAllocation) {
 
         if (currentAllocation.size() == quantities.length) {
-            int sum = 0;
-            for (int num : currentAllocation) {
-                sum += num;
+            System.out.println("inside size equals length");
+            int totalUsedInvestment = 0;
+            for (int i = 0; i < currentAllocation.size(); i++) {
+                // Assuming each unit of asset equals 1 unit of investment for simplicity
+                totalUsedInvestment += currentAllocation.get(i);
             }
-            if (sum == investmentAmount) {
-            	  double currentReturn = calculatePortfolio(currentAllocation,false, investmentAmount);
-                double currentRisk = calculatePortfolio(currentAllocation, true , investmentAmount);
+            
+            // Check if the total investment used is within the investmentAmount
+            if (totalUsedInvestment == investmentAmount) {
+                System.out.println("totalUsedInvestment == investmentAmount");
+                double currentReturn = calculatePortfolio(currentAllocation, false,investmentAmount );
+                double currentRisk = calculatePortfolio(currentAllocation, true, investmentAmount);
                 if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
+                    System.out.println("new best return");
                     bestReturn = currentReturn;
                     bestRisk = currentRisk;
                     bestAllocation = new ArrayList<>(currentAllocation);
+                }
             }
             return;
         }
-
-        for (int i = 0; i <= quantities[currentAllocation.size()]; i++) {
-            currentAllocation.add(i);
+    
+        int assetIndex = currentAllocation.size();
+       
+        for (int i = 0; i <= quantities[assetIndex]; i++) {
+        currentAllocation.add(i);
             generateAllocation(investmentAmount, quantities, currentAllocation);
             currentAllocation.remove(currentAllocation.size() - 1);
         }
     }
 
-}
+
 public static double calculatePortfolio(List<Integer> allocatedAssets, boolean isRiskLevel, int totalUnits) {
     double result = 0;
     double weight;
