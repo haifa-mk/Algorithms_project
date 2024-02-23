@@ -30,7 +30,7 @@ static Scanner input = new Scanner(System.in);
         for (int i = 0; i < no; i++) {
             maxValues[i] = assets.get(i).quantity;
         }
-       
+       generateAllocation(no, maxValues,  new ArrayList<>());
     
     }
     public void findOptimal(){
