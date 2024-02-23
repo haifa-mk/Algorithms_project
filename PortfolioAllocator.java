@@ -1,13 +1,16 @@
 import java.util.*;
 
 public class PortfolioAllocator {
-    List<Asset> assets = new ArrayList<>();
-    double totalInvestment;
-    double riskTolerance;
+static List<Integer> bestAllocation = new ArrayList<>();
+static double bestReturn = -1; //any val
+static double bestRisk = Double.MAX_VALUE; // initialise with a high value
+static Scanner input = new Scanner(System.in);
+   static List<Asset> assets = new ArrayList<>();
+   static double totalInvestment;
+   static double riskTolerance; static int no;
     public void getAllInputs() {
-        Scanner input = new Scanner(System.in);
         System.out.println("enter the no of assets:");
-        int no = input.nextInt();
+       no = input.nextInt();
         for (int i = 0; i < no; i++) {
             System.out.println("Enter ALL details for asset :ID ,Expected Return ,Risk Level ,Quantity respectvley:");
             String id = input.next();
@@ -22,7 +25,7 @@ public class PortfolioAllocator {
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
 
-      
+    
     }
     public void findOptimal(){
         //code
@@ -44,7 +47,12 @@ public class PortfolioAllocator {
                 sum += num;
             }
             if (sum == numOfAssets) {
-              //find_optimal
+            	   double currentReturn = calculate(currentAllocation,numOfAssets);
+                double currentRisk = calculate(currentAllocation,numOfAssets);
+                if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
+                    bestReturn = currentReturn;
+                    bestRisk = currentRisk;
+                    bestAllocation = new ArrayList<>(currentAllocation);
             }
             return;
         }
@@ -56,4 +64,17 @@ public class PortfolioAllocator {
         }
     }
 
+}
+  public static double calculate(List<Integer> allocatedAssest ,int numOfAssets) {
+        double result = 0;
+        double weight;
+
+
+        for (int i = 0; i < allocatedAssest.size(); i++) {
+            weight = (double)allocatedAssest.get(i) /(double) numOfAssets;
+            result += weight * assets.get(i).expectedReturn ;
+          }
+           return result;
+    
+    }
 }
