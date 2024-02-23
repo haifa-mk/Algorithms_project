@@ -24,7 +24,13 @@ static Scanner input = new Scanner(System.in);
         totalInvestment = input.nextDouble();
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
-
+        int[] maxValues = new int[no]; // Initialise the array with the size of the assets list
+    
+        // Fill maxValues with the quantity of each asset
+        for (int i = 0; i < no; i++) {
+            maxValues[i] = assets.get(i).quantity;
+        }
+       
     
     }
     public void findOptimal(){
@@ -33,14 +39,8 @@ static Scanner input = new Scanner(System.in);
 
 
 
-    //change the return value to list or object containg the optimal allocation  in both methods
-    public static List<List<Integer>> assestAllocations(int targetSum, int[] maxValues) {
-        List<List<Integer>> result = new ArrayList<>();
-        generateAllocation(targetSum, maxValues, new ArrayList<>());
-        return result;
-    }
-
     public static void generateAllocation(int numOfAssets, int[] quantities, List<Integer> currentAllocation) {
+
         if (currentAllocation.size() == quantities.length) {
             int sum = 0;
             for (int num : currentAllocation) {
