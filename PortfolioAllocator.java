@@ -47,8 +47,8 @@ static Scanner input = new Scanner(System.in);
                 sum += num;
             }
             if (sum == numOfAssets) {
-            	   double currentReturn = calculatePortfolio(currentAllocation,"return",numOfAssets);
-                double currentRisk = calculatePortfolio(currentAllocation,"risk",numOfAssets);
+            	   double currentReturn = calculate(currentAllocation,numOfAssets);
+                double currentRisk = calculate(currentAllocation,numOfAssets);
                 if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
                     bestReturn = currentReturn;
                     bestRisk = currentRisk;
@@ -65,27 +65,16 @@ static Scanner input = new Scanner(System.in);
     }
 
 }
-  public static double calculatePortfolio(List<Integer> allocatedAssest ,String calculate,int numOfAssets) {
-        double portfolioreturn = 0;
-       double riskTotal = 0;
+  public static double calculate(List<Integer> allocatedAssest ,int numOfAssets) {
+        double result = 0;
         double weight;
-    
-    switch(calculate){
-    case"return": 
-    
+
+
         for (int i = 0; i < allocatedAssest.size(); i++) {
             weight = (double)allocatedAssest.get(i) /(double) numOfAssets;
-            portfolioreturn += weight * assets.get(i).expectedReturn ;
+            result += weight * assets.get(i).expectedReturn ;
           }
-           return portfolioreturn;
-    case"risk":
+           return result;
     
-            for (int i = 0; i < allocatedAssest.size(); i++) {
-            weight = (double)allocatedAssest.get(i) / (double) numOfAssets;
-            riskTotal += weight * assets.get(i).riskLevel ;
-        }
-     return riskTotal;
-       }
-       return 0;
     }
-    }
+}
