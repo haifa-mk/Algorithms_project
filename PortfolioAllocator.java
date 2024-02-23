@@ -36,7 +36,7 @@ public static void main(String[] args) {
     
         // Fill maxValues with the quantity of each asset
         for (int i = 0; i < no; i++) {
-            maxValues[i] = assets.get(i).quantity;
+            maxValues[i] = assettList.get(i).quantity;
         }
        generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
     System.out.println("Optimal Allocation:  ");
