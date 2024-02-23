@@ -8,7 +8,15 @@ static Scanner input = new Scanner(System.in);
    static List<Asset> assets = new ArrayList<>();
    static double totalInvestment;
    static double riskTolerance; static int no;
-    public void getAllInputs() {
+
+
+public static void main(String[] args) {
+    getAllInputs();
+}
+
+
+
+    public static void getAllInputs() {
         System.out.println("enter the no of assets:");
        no = input.nextInt();
         for (int i = 0; i < no; i++) {
