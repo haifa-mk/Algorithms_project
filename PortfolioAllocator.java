@@ -12,7 +12,10 @@ static Scanner input = new Scanner(System.in);
 
 
 public static void main(String[] args) {
-  
+     List <Asset> assettList = readFromFile("Example1.txt");
+   //System.out.println(assettList);
+
+
         System.out.println("enter the no of assets:");
        no = input.nextInt();
         for (int i = 0; i < no; i++) {
@@ -97,5 +100,57 @@ public static double calculatePortfolio(List<Integer> allocatedAssets, boolean i
         }
     }
     return result; 
+}
+   
+public static List <Asset> readFromFile(String fileName , Boolean fileReadingError) {
+    List <Asset> assetsList = new ArrayList <Asset> ();
+    try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(" : ");
+            if (parts.length == 4) {
+                String assetID = parts[0];
+                double expectedReturn = Double.parseDouble(parts[1]);
+                double riskLevel = Double.parseDouble(parts[2]);
+                int quantity = Integer.parseInt(parts[3]);
+                Asset asset = new Asset(assetID,expectedReturn,riskLevel,quantity);
+                assetsList.add(asset);
+
+            } else {
+                System.err.println("Invalid format in line: " + line);
+            }
+        }
+    } catch (IOException | NumberFormatException e) {
+        fileReadingError = true;
+    
+    }
+    return assetsList;
+}
+
+
+   public static List <Asset> readFromFile(String fileName ) {
+    List <Asset> assetsList = new ArrayList <Asset> ();
+    try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(" : ");
+            if (parts.length == 4) {
+                String assetID = parts[0];
+                double expectedReturn = Double.parseDouble(parts[1]);
+                double riskLevel = Double.parseDouble(parts[2]);
+                int quantity = Integer.parseInt(parts[3]);
+                Asset asset = new Asset(assetID,expectedReturn,riskLevel,quantity);
+                assetsList.add(asset);
+
+            } else {
+                System.err.println("Invalid format in line: " + line);
+            }
+        }
+    } catch (IOException | NumberFormatException e) {
+        System.out.println("Error while reading file");
+       
+    
+    }
+    return assetsList;
 }
 }
