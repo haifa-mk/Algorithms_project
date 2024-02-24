@@ -1,21 +1,26 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
-public class PortfolioAllocator {
+public class PortfolioAllocator extends Throwable {
+static List<List<Integer>> validAllocations = new ArrayList<>();
 static List<Integer> bestAllocation = new ArrayList<>();
 static double bestReturn = -1; //any val
 static double bestRisk = Double.MAX_VALUE; // initialise with a high value
 static Scanner input = new Scanner(System.in);
-   static List<Asset> assets = new ArrayList<>();
+
+  static  List <Asset> assettList = readFromFile("Example1.txt");
    static int totalInvestment;
    static double riskTolerance; 
    static int no;
 
 
 public static void main(String[] args) {
-     List <Asset> assettList = readFromFile("Example1.txt");
-   //System.out.println(assettList);
+    
+   System.out.println(assettList.get(0).quantity);
 
-
+/* 
         System.out.println("enter the no of assets:");
        no = input.nextInt();
         for (int i = 0; i < no; i++) {
@@ -26,36 +31,48 @@ public static void main(String[] args) {
             int quantity = input.nextInt();
             Asset asset = new Asset(id, expectedReturn, riskLevel, quantity);
             assets.add(asset);
-        }
+        }*/
         System.out.println("Enter total investment amount:");
         totalInvestment = input.nextInt();
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
 
-        int[] maxValues = new int[no]; // Initialise the array with the size of the assets list
-    
+        int[] maxValues = new int[3]; // Initialise the array with the size of the assets list
+    for(int i = 0; i<=2 ; i++)
+    maxValues[i]= assettList.get(i).quantity;
+
+    generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
         // Fill maxValues with the quantity of each asset
-        for (int i = 0; i < no; i++) {
-            maxValues[i] = assets.get(i).quantity;
-        }
-       generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
+    /*     for (int i = 0; i < no; i++) {
+            maxValues[i] = assettList.get(i).quantity;
+        System.out.println(assettList.get(i).quantity);
+        }*/
+     //  generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
     System.out.println("Optimal Allocation:  ");
-  for(int i = 0 ; i < no ; i++)
-  System.out.println(assets.get(i).id +": "+ bestAllocation.get(i)+ "units");
+    findOptimalAllocation();
+  for(int i = 0 ; i <= 2 ; i++)
+  System.out.println(assettList.get(i).id +": "+ bestAllocation.get(i)+ "units");
   System.out.println("Expected Portfolio Return: "+bestReturn);
     System.out.println("Expected Portfolio Risk: "+bestRisk);
     }
     
-    public void findOptimal(){
-        //code
+    public static void findOptimalAllocation() {
+        for (List<Integer> allocation : validAllocations) {
+            double currentReturn = calculatePortfolio(allocation, false, totalInvestment);
+            double currentRisk = calculatePortfolio(allocation, true, totalInvestment);
+            if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
+                bestReturn = currentReturn;
+                bestRisk = currentRisk;
+                bestAllocation = new ArrayList<>(allocation);
+            }
+        }
     }
-
 
 
     public static void generateAllocation(int investmentAmount, int[] quantities, List<Integer> currentAllocation) {
 
         if (currentAllocation.size() == quantities.length) {
-            System.out.println("inside size equals length");
+    
             int totalUsedInvestment = 0;
             for (int i = 0; i < currentAllocation.size(); i++) {
                 // Assuming each unit of asset equals 1 unit of investment for simplicity
@@ -64,15 +81,8 @@ public static void main(String[] args) {
             
             // Check if the total investment used is within the investmentAmount
             if (totalUsedInvestment == investmentAmount) {
-                System.out.println("totalUsedInvestment == investmentAmount");
-                double currentReturn = calculatePortfolio(currentAllocation, false,investmentAmount );
-                double currentRisk = calculatePortfolio(currentAllocation, true, investmentAmount);
-                if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
-                    System.out.println("new best return");
-                    bestReturn = currentReturn;
-                    bestRisk = currentRisk;
-                    bestAllocation = new ArrayList<>(currentAllocation);
-                }
+                validAllocations.add(new ArrayList<>(currentAllocation));   
+                
             }
             return;
         }
@@ -92,13 +102,16 @@ public static double calculatePortfolio(List<Integer> allocatedAssets, boolean i
     double weight;
 
     for (int i = 0; i < allocatedAssets.size(); i++) {
-        weight = (double) allocatedAssets.get(i) / (double) totalUnits; 
-        if (isRiskLevel) {
-            result += weight * assets.get(i).riskLevel;
-        } else {
-            result += weight * assets.get(i).expectedReturn;
+        if (i < assettList.size()) {
+            weight = (double) allocatedAssets.get(i) / (double) totalUnits;
+            if (isRiskLevel) {
+                result += weight * assettList.get(i).riskLevel;
+            } else {
+                result += weight * assettList.get(i).expectedReturn;
+            }
         }
     }
+    
     return result; 
 }
    
