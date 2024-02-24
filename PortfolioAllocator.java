@@ -10,7 +10,7 @@ static double bestReturn = -1; //any val
 static double bestRisk = Double.MAX_VALUE; // initialise with a high value
 static Scanner input = new Scanner(System.in);
 
-  static  List <Asset> assettList = readFromFile("Example1.txt");
+  static  List <Asset> assettList;
    static int totalInvestment;
    static double riskTolerance; 
    static int no;
@@ -32,6 +32,9 @@ public static void main(String[] args) {
             Asset asset = new Asset(id, expectedReturn, riskLevel, quantity);
             assets.add(asset);
         }*/
+           System.out.println("Enter the File name:");
+          String fileName = input.next();
+         assettList = readFromFile(fileName);
         System.out.println("Enter total investment amount:");
         totalInvestment = input.nextInt();
         System.out.println("Enter risk tolerance level:");
@@ -43,14 +46,14 @@ public static void main(String[] args) {
 
     generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
         // Fill maxValues with the quantity of each asset
-    /*     for (int i = 0; i < no; i++) {
+    /*     for (int i = 0; i <   assettList.size(); i++) {
             maxValues[i] = assettList.get(i).quantity;
         System.out.println(assettList.get(i).quantity);
         }*/
      //  generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
     System.out.println("Optimal Allocation:  ");
     findOptimalAllocation();
-  for(int i = 0 ; i <= 2 ; i++)
+  for(int i = 0 ; i <  assettList.size() ; i++)
   System.out.println(assettList.get(i).id +": "+ bestAllocation.get(i)+ "units");
   System.out.println("Expected Portfolio Return: "+bestReturn);
     System.out.println("Expected Portfolio Risk: "+bestRisk);
@@ -161,6 +164,7 @@ public static List <Asset> readFromFile(String fileName , Boolean fileReadingErr
         }
     } catch (IOException | NumberFormatException e) {
         System.out.println("Error while reading file");
+         System. exit(0);
        
     
     }
