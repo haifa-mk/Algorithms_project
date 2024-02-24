@@ -35,7 +35,8 @@ public static void main(String[] args) {
 
     generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
     findOptimalAllocation();
- 
+
+    // check if an optimal allocation has been found and display the results
    if(bestAllocation.size()==0)
         System.out.println("There are no feasible allocations within this risk rate");
   else{
@@ -46,11 +47,12 @@ public static void main(String[] args) {
           System.out.printf("Expected Portfolio Risk: %.3f\n", bestRisk);
         }
     }
-    
+     //Method to find the optimal allocation among all valid allocations
     public static void findOptimalAllocation() {
         for (List<Integer> allocation : validAllocations) {
             double currentReturn = calculatePortfolio(allocation, false, totalInvestment);
             double currentRisk = calculatePortfolio(allocation, true, totalInvestment);
+            //will update if a better one if found
             if (currentReturn > bestReturn && currentRisk <= riskTolerance) {
                 bestReturn = currentReturn;
                 bestRisk = currentRisk;
@@ -61,7 +63,7 @@ public static void main(String[] args) {
 
 
     public static void generateAllocation(int investmentAmount, int[] quantities, List<Integer> currentAllocation) {
-
+    // Base case: if the current allocation includes all assets
         if (currentAllocation.size() == quantities.length) {
     
             int totalUsedInvestment = 0;
@@ -69,8 +71,8 @@ public static void main(String[] args) {
                 // Assuming each unit of asset equals 1 unit of investment for simplicity
                 totalUsedInvestment += currentAllocation.get(i);
             }
-            
-            // Check if the total investment used is within the investmentAmount
+
+             // Add the current allocation to valid allocations if it matches the investment amount
             if (totalUsedInvestment == investmentAmount) {
                 validAllocations.add(new ArrayList<>(currentAllocation));   
                 
@@ -80,6 +82,7 @@ public static void main(String[] args) {
     
         int assetIndex = currentAllocation.size();
        
+        // iterate through all possible quantities for the current asset and perfom recursion
         for (int i = 0; i <= quantities[assetIndex] && i<=investmentAmount; i++) {
         currentAllocation.add(i);
             generateAllocation(investmentAmount, quantities, currentAllocation);
@@ -87,14 +90,15 @@ public static void main(String[] args) {
         }
     }
 
-
+ // method to calculate the total return or risk of a given allocation
 public static double calculatePortfolio(List<Integer> allocatedAssets, boolean isRiskLevel, int totalUnits) {
     double result = 0;
     double weight;
-
+ 
     for (int i = 0; i < allocatedAssets.size(); i++) {
         if (i < assettList.size()) {
             weight = (double) allocatedAssets.get(i) / (double) totalUnits;
+              // calculates the return or risk based on the isRiskLevel flag
             if (isRiskLevel) {
                 result += weight * assettList.get(i).riskLevel;
             } else {
@@ -105,7 +109,7 @@ public static double calculatePortfolio(List<Integer> allocatedAssets, boolean i
     
     return result; 
 }
-   
+    // a method to read assets from a file and populate the assetList
 public static List <Asset> readFromFile(String fileName , Boolean fileReadingError) {
     List <Asset> assetsList = new ArrayList <Asset> ();
     try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
