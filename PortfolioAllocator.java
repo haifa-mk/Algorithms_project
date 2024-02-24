@@ -51,7 +51,7 @@ public static void main(String[] args) {
         System.out.println(assettList.get(i).quantity);
         }*/
      //  generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
-   if(bestAllocation.isEmpty())
+   if(bestAllocation.size()==0)
         System.out.println("There are no feasible allocations within this risk rate");
         else{
     System.out.println("Optimal Allocation:  ");
