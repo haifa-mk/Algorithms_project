@@ -18,7 +18,7 @@ static Scanner input = new Scanner(System.in);
 
 public static void main(String[] args) {
     
-   System.out.println(assettList.get(0).quantity);
+   
 
 /* 
         System.out.println("enter the no of assets:");
