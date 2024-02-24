@@ -96,7 +96,7 @@ public static void main(String[] args) {
     
         int assetIndex = currentAllocation.size();
        
-        for (int i = 0; i <= quantities[assetIndex]; i++) {
+        for (int i = 0; i <= quantities[assetIndex] && i<=investmentAmount; i++) {
         currentAllocation.add(i);
             generateAllocation(investmentAmount, quantities, currentAllocation);
             currentAllocation.remove(currentAllocation.size() - 1);
