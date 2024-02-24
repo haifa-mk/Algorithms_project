@@ -45,6 +45,7 @@ public static void main(String[] args) {
     maxValues[i]= assettList.get(i).quantity;
 
     generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
+     findOptimalAllocation();
         // Fill maxValues with the quantity of each asset
     /*     for (int i = 0; i <   assettList.size(); i++) {
             maxValues[i] = assettList.get(i).quantity;
@@ -55,7 +56,6 @@ public static void main(String[] args) {
         System.out.println("There are no feasible allocations within this risk rate");
         else{
     System.out.println("Optimal Allocation:  ");
-    findOptimalAllocation();
   for(int i = 0 ; i <  assettList.size() ; i++)
   System.out.println(assettList.get(i).id +": "+ bestAllocation.get(i)+ "units");
   System.out.println("Expected Portfolio Return: "+bestReturn);
