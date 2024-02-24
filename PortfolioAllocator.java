@@ -58,8 +58,8 @@ public static void main(String[] args) {
     System.out.println("Optimal Allocation:  ");
   for(int i = 0 ; i <  assettList.size() ; i++)
   System.out.println(assettList.get(i).id +": "+ bestAllocation.get(i)+ "units");
-  System.out.println("Expected Portfolio Return: "+bestReturn);
-    System.out.println("Expected Portfolio Risk: "+bestRisk);
+   System.out.printf("Expected Portfolio Return: %.3f\n", bestReturn);
+  System.out.printf("Expected Portfolio Risk: %.3f\n", bestRisk);
         }
     }
     
