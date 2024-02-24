@@ -40,8 +40,8 @@ public static void main(String[] args) {
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
 
-        int[] maxValues = new int[3]; // Initialise the array with the size of the assets list
-    for(int i = 0; i<=2 ; i++)
+        int[] maxValues = new int[assettList.size()]; // Initialise the array with the size of the assets list
+    for(int i = 0; i<assettList.size() ; i++)
     maxValues[i]= assettList.get(i).quantity;
 
     generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
