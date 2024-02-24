@@ -51,12 +51,16 @@ public static void main(String[] args) {
         System.out.println(assettList.get(i).quantity);
         }*/
      //  generateAllocation(totalInvestment, maxValues,  new ArrayList<>());
+   if(bestAllocation.isEmpty())
+        System.out.println("There are no feasible allocations within this risk rate");
+        else{
     System.out.println("Optimal Allocation:  ");
     findOptimalAllocation();
   for(int i = 0 ; i <  assettList.size() ; i++)
   System.out.println(assettList.get(i).id +": "+ bestAllocation.get(i)+ "units");
   System.out.println("Expected Portfolio Return: "+bestReturn);
     System.out.println("Expected Portfolio Risk: "+bestRisk);
+        }
     }
     
     public static void findOptimalAllocation() {
